@@ -12,21 +12,8 @@ const parsers = SerialPort.parsers;
 const parser = new parsers.Readline({
    delimiter: '\r\n'
 });
-// Parse CSV data
-// const parser = new parsers.Transform({
-//    objectMode: true,
-//    transform(chunk, encoding, callback) {
-//      const lines = chunk.toString().split('\n');
-//      lines.forEach(line => {
-//        if (line) {
-//          this.push(line);
-//        }
-//      });
-//      callback();
-//    }
-//  });
 
-// list available ports in concole 
+// list available ports in console 
 // (lists both /dev/tty and /dev/cu with "trick" described
 SerialPort.list().then(ports => {
    let allPorts = [...ports];
@@ -46,16 +33,16 @@ SerialPort.list().then(ports => {
  });
 
 
-// open port
-const port = new SerialPort('/dev/cu.usbmodem143201',{
-   baudRate: 9600,
-   dataBits: 8,
-   parity: 'none',
-   stopBits: 1,
-   flowControl: false
-});
-// pipe data
-port.pipe(parser);
+// // open port
+// const port = new SerialPort('/dev/cu.usbmodem143201',{
+//    baudRate: 9600,
+//    dataBits: 8,
+//    parity: 'none',
+//    stopBits: 1,
+//    flowControl: false
+// });
+// // pipe data
+// port.pipe(parser);
 
 // middleware
 app.use(express.static('public'));
@@ -102,15 +89,47 @@ app.get('/style.css', function(req, res) {
    console.log('Server is listening on port 3000!');
 });
 
-// create socket
+// listen for serial port properties selected by user
 const io = require('socket.io')(server);
 io.on('connection', function(socket) {
    console.log('Node is listening to port');
-});
 
-// listen for data
-parser.on('data', function(data) {
-   console.log('Received data from port: ' + data);
-   // send data to client
-   io.emit('data', data);
-});
+   socket.on('open-port', function(data) {
+    const { port, baudRate, dataBits, stopBits, parity} = data;
+      console.log('Opening port: ' + port);
+      console.log('Baud date' + baudRate);
+      console.log('Data bits' + dataBits);
+      console.log('Parity: ' + parity);
+      console.log('Stop bits: ' + stopBits);
+      // open port
+      chosenPort = new SerialPort(port, {
+         baudRate: parseInt(baudRate),
+         dataBits: parseInt(dataBits),
+         stopBits: parseInt(stopBits),
+         parity: parity
+      });
+      chosenPort.on('open', () => {
+        console.log(`Serial port ${port} opened successfully`);
+      });
+      // use parser to read data and io.emit to send data to client
+      chosenPort.pipe(parser);
+      parser.on('data', function(data) {
+        console.log(`Data received: ${data}`);
+        // send data to client
+        io.emit('data', data);
+     });
+      chosenPort.on('error', (err) => {
+        console.error(`Error: ${err}`);
+      });
+      chosenPort.on('close', () => {
+        console.log(`Serial port ${port} closed`);
+        io.emit('close');
+      });
+   });
+
+   socket.on('close-port', function() {
+      console.log('Closing port');
+      chosenPort.close();
+   });
+  });
+

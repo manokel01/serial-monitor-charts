@@ -28,13 +28,10 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     border: 1px solid black;
-    margin: 20px;
 }
 
 .control-panel-title{
     font-size: 1rem;
-    margin: 0;
-    padding: 0;
     border: 1px solid red;
     margin-bottom: 20px;
 }
@@ -43,7 +40,6 @@ body {
     width: 300px;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     justify-content: space-evenly;
     border: 1px solid red;
     margin: 50px;
@@ -64,12 +60,13 @@ body {
 
 .buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     border: 1px solid red;
-    margin-top: 20px;
+    margin-top: 30px;
     width: 300px;
+    height: 110px;
 }
 
 select {
@@ -81,7 +78,7 @@ select {
     outline: none;
     padding: 5px;
     margin: 10px;
-    background-color: #008CBA;
+    background-color: #292c33;
     color: white;
 }
 
@@ -102,12 +99,11 @@ justify-content: center;
 font-size: 1rem;
 margin: 4px 2px;
 cursor: pointer;
-font-family: 'Open Sans', sans-serif;
 }
 
 button:hover {
 background-color: white;
-border: 2px solid #008CBA;
+border: 1px solid #008CBA;
 color: #008CBA;
 }
 
@@ -115,14 +111,18 @@ color: #008CBA;
     display: flex;
     flex-direction: column;
     align-items: left;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     border: 1px solid blue;
+    padding: 10px;
 }
 
 #terminal-label {
     font-size: 1rem;
-    margin-bottom: 5px;
+    margin: 0;
     padding: 0;
+    border: 1px solid red;
+    margin-bottom: 20px;
+    margin-top: 50px;
 }
 
 #terminal {
@@ -138,6 +138,40 @@ color: #008CBA;
     outline: none;
     resize: none;
     overflow: auto;
+}
+
+.monitor {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    justify-content: space-between;
+    border: 1px solid blue;
+    margin: 20px;
+    padding: 10px;
+}
+
+.send-msg {
+    justify-content: space-between;
+    border: 1px solid red;
+    margin-left: 20px;
+    width: 300px;
+    padding: 10px;
+}
+
+input {
+    height: 30px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 10px;
+    /* margin: 10px; */
+    background-color: #292c33;
+    color: #49afcd;
+}
+
+input:focus {
+    border-color: orange;
 }
 
 .charts {

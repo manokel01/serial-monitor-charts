@@ -1,9 +1,10 @@
 const socket = io();
 const startTime = Date.now();
 const dataPoints = [];
+let serialPort;
 
-const openCloseBtn = document.getElementById("open-close-btn");
-const portDropdown = document.getElementById("port-list");
+const baudRateList = document.getElementById('baud-list');
+
 
 // Make a GET request to the /serialports endpoint to get the list of available ports
 function populateSerialPorts() {
@@ -16,7 +17,7 @@ function populateSerialPorts() {
       // Loop through each port in the list and add it as an <option> to the <select> element
       data.forEach(port => {
         const option = document.createElement('option');
-        option.value = port.path;
+        option.value = port.path.toString();
         option.text = `${port.manufacturer} - ${port.path}`;
         portList.add(option);
       });
@@ -30,7 +31,7 @@ populateSerialPorts();
 // Populate the Baud Rate dropdown menu
 function populateBaudRate() {
   const baudRates = [300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200];
-  const baudRateList = document.getElementById('baud-list');
+  // const baudRateList = document.getElementById('baud-list');
 
   baudRates.forEach(baudRate => {
     const option = document.createElement('option');
@@ -87,27 +88,37 @@ function populatePariry() {
 }
 populatePariry();
 
-// Event listener for the open button
-document.getElementById('open-button').addEventListener('click', () => {
-  const portPath = document.getElementById('port-select').value;
-  if (portPath) {
-    // Open the selected port
-    const port = new SerialPort(portPath, {
-      baudRate: 9600,
-      dataBits: 8,
-      parity: 'none',
-      stopBits: 1,
-      flowControl: false
-    });
-    port.pipe(parser);
-  }
-});
+// Add event listener to the "Open Port" button
+document.getElementById('open-button').addEventListener('click', openPort);
+// Add event listener to the "Close Port" button
+document.getElementById('close-button').addEventListener('click', closePort);
 
-// Event listener for the close button
-document.getElementById('close-button').addEventListener('click', () => {
-  // Close the port
-  port.close();
-});
+// Open the port with the selected options
+function openPort() {
+
+  // Get the selected port from the dropdown menu
+  const port = document.getElementById('port-list').value;
+  console.log(port);
+  // Get the selected baud rate from the dropdown menu
+  const baudRate = document.getElementById('baud-list').value;
+  console.log(baudRate);
+  // Get the selected data bits from the dropdown menu
+  const dataBits = document.getElementById('data-bits-list').value;
+  // Get the selected stop bits from the dropdown menu
+  const stopBits = document.getElementById('stop-bits-list').value;
+  // Get the selected parity from the dropdown menu
+  const parity = document.getElementById('parity-list').value;
+
+  const portSelections = {port, baudRate, dataBits, stopBits, parity};
+
+  socket.emit('open-port', portSelections);
+
+}
+
+// Close the port
+function closePort() {
+  socket.emit('close-port');
+}
 
 Chart.defaults.global.defaultFontFamily = 'helvetica';
 Chart.defaults.global.defaultFontSize = 12;
@@ -183,6 +194,8 @@ socket.on('data', function(data) {
     dataPoints.push({x: timeElapsed, y: data});
     // console.log(timeElapsed, data);
     chart1.update();
-    document.getElementById('terminal').innerHTML += data + "\n";
+    const terminal = document.getElementById('terminal')
+    terminal.innerHTML += data + "\n";
+    terminal.scrollTop = terminal.scrollHeight;
 });
 
