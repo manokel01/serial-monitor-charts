@@ -16,7 +16,7 @@
 
     <div class="container">
         <div class="header">
-            <h2>Serial Port Communication</h2>
+            <h2>Serial Port Manager</h2>
         </div>
 
         <!-- Control Panel-->
@@ -24,35 +24,35 @@
             <div class="port-controls">
                 <!-- Port selectors--> 
                <div class="control-panel-title">
-                     <p>Port Controls</p>
+                     <h2>Port Settings</h2>
                </div>
                 <div class="port-selectors">
                     <div>
-                        <label for="port-list">port path:</label>
+                        <label for="port-list">Port path:</label>
                         <select name="port-list" id="port-list">
                             <option disabled selected> -- select port --</option>
                         </select>
                     </div>
                     <div>
-                        <label for="baud-list">baud rate:</label>
+                        <label for="baud-list">Baud rate:</label>
                         <select name="baud-list" id="baud-list">
                             <option disabled selected>Baud Rate</option>
                         </select>
                     </div>
                     <div>
-                        <label for="data-bits-list">data bits:</label>
+                        <label for="data-bits-list">Data bits:</label>
                         <select name="data-bits-list" id="data-bits-list">
                             <option disabled selected>Data Bits</option>
                         </select>
                     </div>
                     <div>
-                        <label for="stop-bits-list">stop bits:</label>
+                        <label for="stop-bits-list">Stop bits:</label>
                         <select name="stop-bits" id="stop-bits-list">
                             <option disabled selected>Stop Bits</option>
                         </select>
                     </div>
                     <div>
-                        <label for="parity-list">parity:</label>
+                        <label for="parity-list">Parity:</label>
                         <select name="parity" id="parity-list">
                             <option disabled selected>Parity</option>
                         </select>
@@ -70,7 +70,7 @@
             <div class="terminal-area">
                 <div class="monitor">
                     <div>
-                        <span>terminal#</span>
+                        <span>Serial Monitor:</span>
                     </div>
                     <div>
                         <textarea name="terminal" id="terminal"></textarea>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="send-msg">
                     <div class="input-text">
-                        <input class="message" type="text" value="type msg here" size="63">
+                        <input class="message" type="text" value="type msg to send here" size="50">
                         <br><br>
                     </div>
                     <div class="submit-text">
@@ -88,10 +88,9 @@
             </div>
         </div>
         
-
         <!-- Charts -->
         <div class="charts">
-            <canvas id="chart1"></canvas> 
+            <canvas width="900" id="chart1"></canvas> 
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 body {
     box-sizing: border-box;
     background-color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Helvetica', sans-serif;
 }
 
 .container {
@@ -9,7 +9,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    border: 1px solid red;
     margin: 20px;
 }
 
@@ -18,8 +17,12 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid orange;
     margin: 20px;
+    border: 3px solid #292c33;
+    border-radius: 8px;
+    background-color: #292c33;
+    color: white;
+    padding: 0 20px;
 }
 
 .control-panel {
@@ -27,23 +30,26 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    border: 1px solid black;
+    border: 3px solid #292c33;
+    border-radius: 10px;
 }
 
 .control-panel-title{
     font-size: 1rem;
-    border: 1px solid red;
     margin-bottom: 20px;
 }
 
 .port-controls {
     width: 300px;
+    height: 585px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: 1px solid red;
-    margin: 50px;
+    background-color:#292c33;
+    color: white;
+    margin: 30px;
     padding: 10px;
+    border-radius: 8px;
 }
 
 .port-selectors {
@@ -51,7 +57,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    border: 1px solid red;
 }
 
 .port-selectors label {
@@ -60,13 +65,12 @@ body {
 
 .buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid red;
     margin-top: 30px;
     width: 300px;
-    height: 110px;
+    /* height: 100px; */
 }
 
 select {
@@ -78,13 +82,10 @@ select {
     outline: none;
     padding: 5px;
     margin: 10px;
-    background-color: #292c33;
-    color: white;
+    background-color: white;
+    color: #292c33;
 }
 
-select:focus {
-    border-color: orange;
-}
 
 button {
 background-color: #008CBA;
@@ -112,7 +113,6 @@ color: #008CBA;
     flex-direction: column;
     align-items: left;
     /* justify-content: space-evenly; */
-    border: 1px solid blue;
     padding: 10px;
 }
 
@@ -120,7 +120,6 @@ color: #008CBA;
     font-size: 1rem;
     margin: 0;
     padding: 0;
-    border: 1px solid red;
     margin-bottom: 20px;
     margin-top: 50px;
 }
@@ -145,17 +144,20 @@ color: #008CBA;
     flex-direction: column;
     align-items: center; */
     justify-content: space-between;
-    border: 1px solid blue;
     margin: 20px;
     padding: 10px;
+    background-color: #292c33;
+    border-radius: 8px;
+    color:#008CBA;
 }
 
 .send-msg {
     justify-content: space-between;
-    border: 1px solid red;
     margin-left: 20px;
-    width: 300px;
+    width: 470px;
     padding: 10px;
+    background-color: #292c33;
+    border-radius: 8px;
 }
 
 input {
@@ -166,8 +168,7 @@ input {
     outline: none;
     padding-left: 10px;
     /* margin: 10px; */
-    background-color: #292c33;
-    color: #49afcd;
+    color: #292c33;
 }
 
 input:focus {
@@ -179,15 +180,16 @@ input:focus {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    border: 1px solid green;
-    width: 800px;
+    border: 3px solid #292c33;
+    border-radius: 10px;
+    height: auto;
     margin: 20px;
-    padding: 50px;
+    padding: 10px;
 }
 
 @media (max-width: 600px) {
-    .charts {
-        width: 600px;
+    #chart1 {
+        width: 200px;
     }
     .terminal-area {
         height: 300px;
