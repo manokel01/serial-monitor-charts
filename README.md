@@ -4,6 +4,9 @@ This project is a web application for communicating with serial ports and displa
 
 ## Features
 
+
+<img src="https://github.com/manokel01/serial-monitor-node-ajax/blob/main/serialport-manager-ui.png>" alt="UI image" title="UI image">
+
 - List available serial ports on the server.
 - Open a serial port connection with configurable properties (baud rate, data bits, stop bits, parity).
 - Receive and display real-time data from the serial port.
