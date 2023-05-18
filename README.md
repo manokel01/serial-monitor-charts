@@ -13,7 +13,7 @@ This project is a Node.js application for communicating with serial ports and vi
 - Visiualize incoming data on up to 3 charts.
 - Automatic labeling of charts based on received JSON keys.
 
-![UI-imahe](serial-monitor-ui.png)
+![UI-imahe](serial-monitor-ui0.png)
 
 ## Prerequisites
 
