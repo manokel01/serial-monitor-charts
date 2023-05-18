@@ -177,19 +177,34 @@ input:focus {
 
 .charts {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-around;
     border: 3px solid #292c33;
     border-radius: 10px;
-    height: auto;
     margin: 20px;
     padding: 10px;
+    width: 900px;
 }
 
-@media (max-width: 600px) {
-    #chart1 {
+@media (max-width: 750px) {
+    .port-controls {
         width: 200px;
+        height: auto;
+    }
+    select {
+        width: 200px;
+    }
+    .buttons {
+        width: 200px;
+        font-size: 0.8rem;
+    }
+    .terminal-area {
+        height: 200px;
+    }
+    .charts {
+        width: 500px;
     }
     .terminal-area {
         height: 300px;

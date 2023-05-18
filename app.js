@@ -5,7 +5,6 @@ const index = fs.readFileSync( 'index.html');
 const SerialPort = require('serialport');
 const { Transform } = require('stream');
 
-
 // how to parse data
 const parsers = SerialPort.parsers;
 // one value per line
@@ -31,18 +30,6 @@ SerialPort.list().then(ports => {
      console.log(`${port.path} - ${port.manufacturer}`);
    });
  });
-
-
-// // open port
-// const port = new SerialPort('/dev/cu.usbmodem143201',{
-//    baudRate: 9600,
-//    dataBits: 8,
-//    parity: 'none',
-//    stopBits: 1,
-//    flowControl: false
-// });
-// // pipe data
-// port.pipe(parser);
 
 // middleware
 app.use(express.static('public'));
@@ -113,10 +100,13 @@ io.on('connection', function(socket) {
       });
       // use parser to read data and io.emit to send data to client
       chosenPort.pipe(parser);
-      parser.on('data', function(data) {
-        console.log(`Data received: ${data}`);
-        // send data to client
-        io.emit('data', data);
+      parser.on('data', function(line) {
+        // Split the line into an array of values
+        const values = line.split(',');
+
+        console.log(`Data received: ${values}`);
+        // emit the entire array of values
+        io.emit('data', values);
      });
       chosenPort.on('error', (err) => {
         console.error(`Error: ${err}`);
@@ -126,6 +116,17 @@ io.on('connection', function(socket) {
         io.emit('close');
       });
    });
+
+   socket.on('send-message', (message) => {
+      console.log(`Message received from client: ${message}`);
+      chosenPort.write(message, (err) => {
+        if (err) {
+          console.error('Error writing to serial port:', err);
+        } else {
+          console.log('Message sent successfully');
+        }
+      });
+   })
 
    socket.on('close-port', function() {
       console.log('Closing port');

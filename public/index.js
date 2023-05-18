@@ -1,10 +1,11 @@
 const socket = io();
 const startTime = Date.now();
-const dataPoints = [];
+const dataPoints1 = []; // array to hold sensor 1 values
+const dataPoints2 = []; // array to hold sensor 2 values
+const dataPoints3 = []; // array to hold sensor 3 values
 let serialPort;
 
 const baudRateList = document.getElementById('baud-list');
-
 
 // Make a GET request to the /serialports endpoint to get the list of available ports
 function populateSerialPorts() {
@@ -95,7 +96,6 @@ document.getElementById('close-button').addEventListener('click', closePort);
 
 // Open the port with the selected options
 function openPort() {
-
   // Get the selected port from the dropdown menu
   const port = document.getElementById('port-list').value;
   console.log(port);
@@ -108,11 +108,8 @@ function openPort() {
   const stopBits = document.getElementById('stop-bits-list').value;
   // Get the selected parity from the dropdown menu
   const parity = document.getElementById('parity-list').value;
-
   const portSelections = {port, baudRate, dataBits, stopBits, parity};
-
   socket.emit('open-port', portSelections);
-
 }
 
 // Close the port
@@ -121,15 +118,14 @@ function closePort() {
 }
 
 Chart.defaults.global.defaultFontFamily = 'helvetica';
-Chart.defaults.global.defaultFontSize = 12;
+Chart.defaults.global.defaultFontSize = 14;
     
-
 const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
   type: 'line',
   data: {
       datasets: [{
-      label: 'Sensor Data',
-      data: dataPoints,
+      label: 'Sensor #1',
+      data: dataPoints1,
       backgroundColor: 'rgba(255, 99, 132, 0.6)',
       borderWidth: 1,
       borderColor: 'red',
@@ -143,7 +139,7 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
         }
     },
     title: {
-        display: true,
+        display: false,
         text: 'Sensor Data',
         fontSize: 14,
         justifyContent: 'center'
@@ -175,10 +171,138 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
     },
     layout: {
         padding: {
-            left: 50,
+            left: 20,
             right: 0,
             bottom: 0,
-            top: 0
+            top: 20
+        }
+    },
+    toolips: {
+    enabled: true
+    },
+    responsive: true,
+  }
+});
+
+const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
+  type: 'line',
+  data: {
+      datasets: [{
+      label: 'Sensor #2',
+      data: dataPoints2,
+      backgroundColor: 'green',
+      borderWidth: 1,
+      borderColor: 'green',
+      fill: false,
+      }]
+  },
+  options: {
+    elements: {
+        point: {
+            radius: 0
+        }
+    },
+    title: {
+        display: false,
+        text: 'Sensor Data',
+        fontSize: 14,
+        justifyContent: 'center'
+    },
+    scales: {
+        xAxes: [{
+            type: 'linear',
+            position: 'bottom',
+            scaleLabel: {
+                display: true,
+                labelString: 'Elapsed Time (ms)'
+            }
+        }],
+        yAxes: [{
+            type: 'linear',
+            position: 'left',
+            scaleLabel: {
+                display: true,
+                labelString: 'Incoming Data'
+            }
+        }]
+    },
+    legend: {
+        display: true,
+        position: 'top',
+        labels: {
+            fontColor: '#000'
+        }
+    },
+    layout: {
+        padding: {
+            left: 20,
+            right: 0,
+            bottom: 0,
+            top: 20
+        }
+    },
+    toolips: {
+    enabled: true
+    },
+    responsive: true,
+  }
+});
+
+const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
+  type: 'line',
+  data: {
+      datasets: [{
+      label: 'Sensor #3',
+      data: dataPoints3,
+      backgroundColor: 'blue',
+      borderWidth: 1,
+      borderColor: 'blue',
+      fill: false,
+      }]
+  },
+  options: {
+    elements: {
+        point: {
+            radius: 0
+        }
+    },
+    title: {
+        display: false,
+        text: 'Sensor Data',
+        fontSize: 14,
+        justifyContent: 'center'
+    },
+    scales: {
+        xAxes: [{
+            type: 'linear',
+            position: 'bottom',
+            scaleLabel: {
+                display: true,
+                labelString: 'Elapsed Time (ms)'
+            }
+        }],
+        yAxes: [{
+            type: 'linear',
+            position: 'left',
+            scaleLabel: {
+                display: true,
+                labelString: 'Incoming Data'
+            }
+        }]
+    },
+    legend: {
+        display: true,
+        position: 'top',
+        labels: {
+            fontColor: '#000'
+        }
+    },
+    layout: {
+        padding: {
+            left: 20,
+            right: 0,
+            bottom: 0,
+            top: 20
         }
     },
     toolips: {
@@ -189,13 +313,25 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
 });
 
 // receive data from server
-socket.on('data', function(data) {
-    const timeElapsed = Date.now() - startTime;
-    dataPoints.push({x: timeElapsed, y: data});
-    // console.log(timeElapsed, data);
-    chart1.update();
-    const terminal = document.getElementById('terminal')
-    terminal.innerHTML += data + "\n";
-    terminal.scrollTop = terminal.scrollHeight;
+socket.on('data', function(values) {
+  const timeElapsed = Date.now() - startTime;
+
+  // Update data for chart1
+  dataPoints1.push({x: timeElapsed, y: values[0]});
+  chart1.update();
+
+  // Update data for chart2
+  dataPoints2.push({x: timeElapsed, y: values[1]});
+  chart2.update();
+
+  // Update data for chart3
+  dataPoints3.push({x: timeElapsed, y: values[2]});
+  chart3.update();
+
+  // Update terminal display
+  const terminal = document.getElementById('terminal');
+  terminal.innerHTML += values.join(", ") + "\n";
+  terminal.scrollTop = terminal.scrollHeight;
 });
+
 
