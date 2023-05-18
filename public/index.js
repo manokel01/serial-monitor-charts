@@ -3,8 +3,10 @@ const startTime = Date.now();
 const dataPoints1 = []; // array to hold sensor 1 values
 const dataPoints2 = []; // array to hold sensor 2 values
 const dataPoints3 = []; // array to hold sensor 3 values
+const dataLabels = []; // array to hold sensor/charts labels
 let serialPort;
 
+// ----------- Serial Port Config ------------ //
 const baudRateList = document.getElementById('baud-list');
 
 // Make a GET request to the /serialports endpoint to get the list of available ports
@@ -117,17 +119,31 @@ function closePort() {
   socket.emit('close-port');
 }
 
+// ----------- Serial Monitor ------------ //
+const inputText = document.getElementById('input-field');
+const terminal = document.getElementById('termianl');
+const submitButton = document.getElementById('submit-button');
+
+submitButton.addEventListener('clicl', () => {
+    const inputValue = inputText.value;
+    terminal.value += inputText.value + '\r\n';
+    socket.emit('send-message', inputText.value);
+})
+  
+// --------------- Charts --------------- //
 Chart.defaults.global.defaultFontFamily = 'helvetica';
 Chart.defaults.global.defaultFontSize = 14;
-    
+
+const chartTitle1 = document.getElementById('chart-title-1');
+
 const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
   type: 'line',
   data: {
       datasets: [{
-      label: 'Sensor #1',
+      label: '',
       data: dataPoints1,
       backgroundColor: 'rgba(255, 99, 132, 0.6)',
-      borderWidth: 1,
+      borderWidth: 2,
       borderColor: 'red',
       fill: false,
       }]
@@ -184,15 +200,17 @@ const chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
   }
 });
 
+const chartTitle2 = document.getElementById('chart-title-2');
+
 const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
   type: 'line',
   data: {
       datasets: [{
-      label: 'Sensor #2',
+      label: '',
       data: dataPoints2,
-      backgroundColor: 'green',
-      borderWidth: 1,
-      borderColor: 'green',
+      backgroundColor:  'rgba(54, 162, 235, 0.9)',
+      borderWidth: 2,
+      borderColor: 'rgba(54, 162, 235, 0.9)',
       fill: false,
       }]
   },
@@ -247,16 +265,18 @@ const chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
     responsive: true,
   }
 });
+
+const chartTitle3 = document.getElementById('chart-title-3');
 
 const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
   type: 'line',
   data: {
       datasets: [{
-      label: 'Sensor #3',
+      label: '',
       data: dataPoints3,
-      backgroundColor: 'blue',
-      borderWidth: 1,
-      borderColor: 'blue',
+      backgroundColor: 'rgba(25, 179, 63, 0.9)',
+      borderWidth: 2,
+      borderColor: 'rgba(25, 179, 63, 0.9)',
       fill: false,
       }]
   },
@@ -312,26 +332,41 @@ const chart3 = new Chart(document.getElementById('chart3').getContext('2d'), {
   }
 });
 
-// receive data from server
-socket.on('data', function(values) {
-  const timeElapsed = Date.now() - startTime;
+// receive JSON parsed values and keys from server
+socket.on('keys', (keysArray) => {
+    // Process the keys array
+    console.log('Received keys:', keysArray);
 
-  // Update data for chart1
-  dataPoints1.push({x: timeElapsed, y: values[0]});
-  chart1.update();
-
-  // Update data for chart2
-  dataPoints2.push({x: timeElapsed, y: values[1]});
-  chart2.update();
-
-  // Update data for chart3
-  dataPoints3.push({x: timeElapsed, y: values[2]});
-  chart3.update();
-
-  // Update terminal display
-  const terminal = document.getElementById('terminal');
-  terminal.innerHTML += values.join(", ") + "\n";
-  terminal.scrollTop = terminal.scrollHeight;
+    chartTitle1.innerText = keysArray[0];
+    chartTitle2.innerText = keysArray[1];
+    chartTitle3.innerText = keysArray[2];
 });
+  
+// Receive values array from the server
+socket.on('values', (valuesArray) => {
+    const timeElapsed = Date.now() - startTime;
+    // Process the values array
+    console.log('Received values:', valuesArray);
+
+    // Update data for chart1
+    dataPoints1.push({x: timeElapsed, y: valuesArray[0]});
+    chart1.update();
+
+    // Update data for chart2
+    dataPoints2.push({x: timeElapsed, y: valuesArray[1]});
+    chart2.update();
+
+    // Update data for chart3
+    dataPoints3.push({x: timeElapsed, y: valuesArray[2]});
+    chart3.update();
+
+    // Update terminal display
+    const terminal = document.getElementById('terminal');
+    terminal.innerHTML += valuesArray.join(", ") + "\n";
+    terminal.scrollTop = terminal.scrollHeight;
+});
+  
+
+
 
 

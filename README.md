@@ -4,15 +4,16 @@ This project is a web application for communicating with serial ports and displa
 
 ## Features
 
-- List available serial ports with attached device names on the server.
-- Easy select serial port connection with configurable properties (baud rate, data bits, stop bits, parity).
+- List available serial ports - identifies device connected names.
+- Easy select and config serial port connection(baud rate, data bits, stop bits, parity).
 - Open/Close the serial port connection.
-- Receive and display real-time data from the serial port in the Serial Monitor.
-- Visiualize incoming data on a chart.
-(- Work in progress: Send data via to microcontrtoller)
+- Parse incoming JSON data.
+- Integrated Serial Monitor
+- Ability to type and send data via serial.
+- Visiualize incoming data on up to 3 charts.
+- Automatic labeling of charts based on received JSON keys.
 
-![UI-imahe](serialport-manager-ui.png)
-
+![UI-imahe](serial-monitor-ui.png)
 
 
 ## Prerequisites
