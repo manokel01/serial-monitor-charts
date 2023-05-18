@@ -1,6 +1,6 @@
 # SerialPort Manager and Data Visualizer
 
-This project is a Node.js application for communicating with serial ports and displaying incoming data. It is particularly useful for anyone working with microcontrollers like the Arduino to read data from a serial port, parse it, visualize it using a line chart can be very useful for monitoring and analyzing data in real-time. Users can select various serial port properties, such as baud rate, data bits, stop bits, and parity, and see incoming data on a line chart and a terminal window.
+This project is a Node.js application for communicating with serial ports and visializing incoming JSON data. It is particularly useful for anyone working with microcontrollers like the Arduino to read data from a serial port, parse it, visualize it using a line chart can be very useful for monitoring and analyzing data in real-time. Users can select various serial port properties, such as baud rate, data bits, stop bits, and parity, and see incoming data on a line chart and a terminal window.
 
 ## Features
 
@@ -15,13 +15,21 @@ This project is a Node.js application for communicating with serial ports and di
 
 ![UI-imahe](serial-monitor-ui.png)
 
-
 ## Prerequisites
 
 Before running the application, make sure you have the following prerequisites installed on your system:
 
 - Node.js (version 14 or above)
 - NPM (Node Package Manager)
+
+## Dependencies
+
+This project uses the following dependencies:
+
+- Express: A web framework for Node.js
+- Socket.IO: A library for real-time web applications
+- erialPort: A library for serial port communication
+- Chart.js: A JavaScript library for creating charts and graphs
 
 ## Installation
 
@@ -40,15 +48,6 @@ Before running the application, make sure you have the following prerequisites i
    ```bash
    npm install
     ```
-
-## Dependencies
-
-This project uses the following dependencies:
-
-- Express: A web framework for Node.js
-- Socket.IO: A library for real-time web applications
-- erialPort: A library for serial port communication
-- Chart.js: A JavaScript library for creating charts and graphs
 
 ## Usage
 
