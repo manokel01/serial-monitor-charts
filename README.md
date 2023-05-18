@@ -1,6 +1,6 @@
 # SerialPort Manager and Data Visualizer
 
-This project is a web application for communicating with serial ports and displaying incoming data. It is particularly useful for anyone working with microcontrollers like the Arduino to read data from a serial port, visualize it using a line chart can be very useful for monitoring and analyzing data in real-time. Users can select various serial port properties, such as baud rate, data bits, stop bits, and parity, and see incoming data on a line chart and a terminal window.
+This project is a Node.js application for communicating with serial ports and displaying incoming data. It is particularly useful for anyone working with microcontrollers like the Arduino to read data from a serial port, parse it, visualize it using a line chart can be very useful for monitoring and analyzing data in real-time. Users can select various serial port properties, such as baud rate, data bits, stop bits, and parity, and see incoming data on a line chart and a terminal window.
 
 ## Features
 
@@ -52,16 +52,18 @@ This project uses the following dependencies:
 
 ## Usage
 
-1. Start the application:
+1. Connect you microcontroller to the serial port.
+2. Make sure it sends up to 3 values in  single JSON per line.
+3. Start the application:
    ```bash
    node app.js
    ```
-2. Open your web browser and visit http://localhost:3000.
-3. Select the desired serial port from the dropdown menu.
-4. Configure the serial port properties (baud rate, data bits, stop bits, parity).
-5. Click the "Open Port" button to establish a connection with the selected serial port.
-6. Once the port is opened, you will see the received data displayed in real-time on the webpage.
-7. To close the port connection, click the "Close Port" button.
+4. Open your web browser and visit http://localhost:3000.
+5. Select the desired serial port from the dropdown menu.
+6. Configure the serial port properties (baud rate, data bits, stop bits, parity).
+7. Click the "Open Port" button to establish a connection with the selected serial port.
+8. Once the port is opened, you will see the received data displayed in real-time on the webpage.
+9. To close the port connection, click the "Close Port" button.
 
 ## Contributing
 
