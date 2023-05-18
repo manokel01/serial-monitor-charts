@@ -1,16 +1,19 @@
-# SerialPort Communication Web App
+# SerialPort Manager and Data Visualizer
 
 This project is a web application for communicating with serial ports and displaying incoming data. It is particularly useful for anyone working with microcontrollers like the Arduino to read data from a serial port, visualize it using a line chart can be very useful for monitoring and analyzing data in real-time. Users can select various serial port properties, such as baud rate, data bits, stop bits, and parity, and see incoming data on a line chart and a terminal window.
 
 ## Features
 
+- List available serial ports with attached device names on the server.
+- Easy select serial port connection with configurable properties (baud rate, data bits, stop bits, parity).
+- Open/Close the serial port connection.
+- Receive and display real-time data from the serial port in the Serial Monitor.
+- Visiualize incoming data on a chart.
+(- Work in progress: Send data via to microcontrtoller)
 
-![UI-imahe](serialport-manager-ui.png) alt="UI image" title="UI image">
+![UI-imahe](serialport-manager-ui.png)
 
-- List available serial ports on the server.
-- Open a serial port connection with configurable properties (baud rate, data bits, stop bits, parity).
-- Receive and display real-time data from the serial port.
-- Close the serial port connection.
+
 
 ## Prerequisites
 
